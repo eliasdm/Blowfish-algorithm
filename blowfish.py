@@ -1,6 +1,4 @@
-   
-from constants import P_array,S_box
-import os
+from constants import P_array, S_box
 
 class Blowfish:
     
@@ -8,7 +6,6 @@ class Blowfish:
     S = S_box
 
     def __init__(self, key):
-        # cpying P and S values
         self.P = self.P[:]
         self.S = [s[:] for s in self.S]
         self.key_expansion(key)
@@ -98,19 +95,3 @@ class Blowfish:
             prev_block = block_int
 
         return self.unpad(plaintext)
-
-
-key = input("Enter a key (4 to 56 characters): ").encode()
-while len(key) < 4 or len(key) > 56:
-    print("Key length must be between 4 and 56 characters.")
-    key = input("Enter a key (4 to 56 characters): ").encode()
-
-plaintext = input("Enter plaintext: ").encode()
-iv = os.urandom(8)  # Generate a random IV
-
-blowfish = Blowfish(key)
-ciphertext = blowfish.encrypt_cbc(plaintext, iv)
-print("Ciphertext (hex):", ciphertext.hex())
-
-decrypted_text = blowfish.decrypt_cbc(ciphertext, iv)
-print("Decrypted Text:", decrypted_text.decode())
