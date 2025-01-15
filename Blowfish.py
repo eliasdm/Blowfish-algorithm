@@ -98,3 +98,19 @@ class Blowfish:
             prev_block = block_int
 
         return self.unpad(plaintext)
+
+# Example usage
+key = input("Enter a key (4 to 56 characters): ").encode()
+while len(key) < 4 or len(key) > 56:
+    print("Key length must be between 4 and 56 characters.")
+    key = input("Enter a key (4 to 56 characters): ").encode()
+
+plaintext = input("Enter plaintext: ").encode()
+iv = os.urandom(8)  # Generate a random IV
+
+cipher = Blowfish(key)
+ciphertext = cipher.encrypt_cbc(plaintext, iv)
+print("Ciphertext (hex):", ciphertext.hex())
+
+decrypted_text = cipher.decrypt_cbc(ciphertext, iv)
+print("Decrypted Text:", decrypted_text.decode())
